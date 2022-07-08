@@ -50,3 +50,9 @@ variable "domain_name" {
 variable "sub_domain" {
   type = string
 }
+
+variable "instance_type" {
+  type = string
+  description = "An AWS instance type to use for the environment. Defaults to t4g.small for production environments and t4g.micro for non-production environments"
+  default = null
+}

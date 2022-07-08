@@ -7,6 +7,7 @@ locals {
   app_subnets_ids = var.app_subnets_ids
 
   solution_stack_name = var.solution_stack_name
+  instance_type = var.instance_type
 
   ha = var.ha
   production = var.production

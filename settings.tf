@@ -98,7 +98,7 @@ locals {
     {
       namespace = "aws:ec2:instances"
       name = "InstanceTypes"
-      value = local.production ? "t3.medium" : "t3.small"
+      value = local.instance_type != '' ? local.instance_type : (local.production ? "t4g.small" : "t4g.micro")
     },
     {
       namespace = "aws:ec2:vpc"
