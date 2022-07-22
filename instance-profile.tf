@@ -87,6 +87,7 @@ resource "aws_iam_role_policy" "platform_api_secrets_manager_policy" {
         Resource = [
           "arn:aws:secretsmanager:eu-central-1:188232076030:secret:platform/api/db-pwd/*",
           "arn:aws:secretsmanager:eu-central-1:188232076030:secret:okta/*",
+          "arn:aws:secretsmanager:eu-central-1:188232076030:secret:blockchain/*",
         ]
       }
     ]
