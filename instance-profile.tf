@@ -85,8 +85,14 @@ resource "aws_iam_role_policy" "platform_api_secrets_manager_policy" {
         Action = ["secretsmanager:GetSecretValue"]
         Effect = "Allow"
         Resource = [
+          "arn:aws:secretsmanager:*:188232076030:secret:*",
           "arn:aws:secretsmanager:eu-central-1:188232076030:secret:*",
         ]
+      },
+      {
+        Action = ["secretsmanager:CreateSecret"]
+        Effect: "Allow"
+        Resource = ["arn:aws:secretsmanager:eu-central-1:188232076030:secret:*"]
       }
     ]
   })
