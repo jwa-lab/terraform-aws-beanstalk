@@ -1,25 +1,16 @@
+variable "env_name" {
+  type = string
+  description = "Name of the environment. Used for the Beanstalk environment name and CNAME prefix, the IAM instance profile, the S3 logs bucket, the security groups"
+}
+
 variable "app_name" {
   type = string
   description = "Name of the beanstalk application to which the new environment will be attached."
 }
 
-variable "env_name" {
-  type = string
-}
-
 variable "vpc_id" {
   type = string
   description = "Id of the VPC."
-}
-
-variable "elb_subnets_ids" {
-  type = list(string)
-  description = "Public vpc subnets for the load balancer"
-}
-
-variable "app_subnets_ids" {
-  type = list(string)
-  description = "Private vpc subnets for the beanstalk instances"
 }
 
 variable "production" {
@@ -37,18 +28,26 @@ variable "beanstalk_env_vars" {
     name: string,
     value: string,
   }))
+  default = []
 }
 
 variable "solution_stack_name" {
   type = string
 }
 
-variable "domain_name" {
-  type = string
+variable "domain" {
+  type = object({
+    main = string
+    sub = string
+  })
 }
 
-variable "sub_domain" {
-  type = string
+variable "additional_domains" {
+  type = list(object({
+    main = string
+    sub = string
+  }))
+  default = []
 }
 
 variable "instance_type" {

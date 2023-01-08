@@ -1,5 +1,6 @@
 resource "aws_acm_certificate" "certificate" {
-  domain_name = "${local.sub_domain}.${local.domain_name}"
+  domain_name = "${var.domain.sub}.${var.domain.main}"
+  subject_alternative_names = [for domain in var.additional_domains: "${domain.sub}.${domain.main}"]
   validation_method = "DNS"
 
   lifecycle {
@@ -16,11 +17,10 @@ resource "aws_route53_record" "certificate_validation_records" {
     }
   }
 
-  allow_overwrite = true
   name = each.value.name
   records = [each.value.record]
   type = each.value.type
-  zone_id = data.aws_route53_zone.api_domain_route53_zone.id
+  zone_id = data.aws_route53_zone.zones[each.key].id
   ttl = 60
 }
 

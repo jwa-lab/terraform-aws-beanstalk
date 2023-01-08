@@ -1,7 +1,7 @@
-resource "aws_route53_record" "platform_api_domain_record" {
-  name = "${local.sub_domain}.${local.domain_name}"
+resource "aws_route53_record" "main_domain" {
+  name = "${var.domain.sub}.${var.domain.main}"
   type = "A"
-  zone_id = data.aws_route53_zone.api_domain_route53_zone.id
+  zone_id = data.aws_route53_zone.zones["${var.domain.sub}.${var.domain.main}"].id
 
   alias {
     evaluate_target_health = false

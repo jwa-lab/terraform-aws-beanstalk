@@ -1,10 +1,10 @@
 resource "aws_elastic_beanstalk_environment" "beanstalk_env" {
-  name = local.env_name
-  application = local.app_name
-  cname_prefix = local.env_name
-  description = "${local.env_name} environment for ${local.app_name}"
+  name = var.env_name
+  application = var.app_name
+  cname_prefix = var.env_name
+  description = "${var.env_name} environment for ${var.app_name}"
   tier = "WebServer"
-  solution_stack_name = local.solution_stack_name
+  solution_stack_name = var.solution_stack_name
 
   dynamic "setting" {
     for_each = local.beanstalk_settings
@@ -18,7 +18,7 @@ resource "aws_elastic_beanstalk_environment" "beanstalk_env" {
   }
 
   dynamic "setting" {
-    for_each = local.beanstalk_env_vars
+    for_each = var.beanstalk_env_vars
 
     content {
       namespace = "aws:elasticbeanstalk:application:environment"

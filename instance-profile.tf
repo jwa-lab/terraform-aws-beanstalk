@@ -1,6 +1,6 @@
 resource "aws_iam_role" "beanstalk_instances_role" {
-  name = terraform.workspace
-  description = "Role for ${terraform.workspace} instances"
+  name = var.env_name
+  description = "Role for ${var.env_name} beanstalk instance profile"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -18,7 +18,7 @@ resource "aws_iam_role" "beanstalk_instances_role" {
 }
 
 resource "aws_iam_instance_profile" "beanstalk_instances_profile" {
-  name = "${terraform.workspace}-instance-profile"
+  name = "${var.env_name}-instance-profile"
   role = aws_iam_role.beanstalk_instances_role.name
 }
 
@@ -69,30 +69,6 @@ resource "aws_iam_role_policy" "platform_api_cloudwatch_logs_policy" {
         Action = ["logs:CreateLogGroup"]
         Effect = "Allow"
         Resource = "arn:aws:logs:*:*:log-group:/aws/elasticbeanstalk*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy" "platform_api_secrets_manager_policy" {
-  name = "PlatformApiSecretsManagerPolicy"
-  role   = aws_iam_role.beanstalk_instances_role.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = ["secretsmanager:GetSecretValue"]
-        Effect = "Allow"
-        Resource = [
-          "arn:aws:secretsmanager:*:188232076030:secret:*",
-          "arn:aws:secretsmanager:eu-central-1:188232076030:secret:*",
-        ]
-      },
-      {
-        Action = ["secretsmanager:CreateSecret"]
-        Effect: "Allow"
-        Resource = ["arn:aws:secretsmanager:eu-central-1:188232076030:secret:*"]
       }
     ]
   })

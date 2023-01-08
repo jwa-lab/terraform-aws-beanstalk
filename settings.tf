@@ -8,12 +8,12 @@ locals {
     {
       namespace = "aws:autoscaling:asg"
       name = "MaxSize"
-      value = local.production ? 20 : 2
+      value = var.production ? 20 : 2
     },
     {
       namespace = "aws:autoscaling:asg"
       name = "MinSize"
-      value = local.ha ? 2 : 1
+      value = var.ha ? 2 : 1
     },
     {
       namespace = "aws:autoscaling:launchconfiguration"
@@ -23,22 +23,22 @@ locals {
     {
       namespace = "aws:autoscaling:launchconfiguration"
       name = "MonitoringInterval"
-      value = local.production ? "1 minute" : "5 minute"
+      value = var.production ? "1 minute" : "5 minute"
     },
     {
       namespace = "aws:autoscaling:launchconfiguration"
       name = "SecurityGroups"
-      value = aws_security_group.instances_security_group.id
+      value = aws_security_group.beanstalk_instances_security_group.id
     },
     {
       namespace = "aws:autoscaling:trigger"
       name = "BreachDuration"
-      value = local.production ? 2 : 5
+      value = var.production ? 2 : 5
     },
     {
       namespace = "aws:autoscaling:trigger"
       name = "EvaluationPeriods"
-      value = local.production ? 2 : 5
+      value = var.production ? 2 : 5
     },
     {
       namespace = "aws:autoscaling:trigger"
@@ -83,7 +83,7 @@ locals {
     {
       namespace = "aws:autoscaling:updatepolicy:rollingupdate"
       name = "RollingUpdateEnabled"
-      value = local.production
+      value = var.production
     },
     {
       namespace = "aws:autoscaling:updatepolicy:rollingupdate"
@@ -98,12 +98,12 @@ locals {
     {
       namespace = "aws:ec2:instances"
       name = "InstanceTypes"
-      value = local.instance_type != null ? local.instance_type : (local.production ? "t4g.small" : "t4g.micro")
+      value = var.instance_type != null ? var.instance_type : (var.production ? "t4g.small" : "t4g.micro")
     },
     {
       namespace = "aws:ec2:vpc"
       name = "VPCId"
-      value = local.vpc_id
+      value = var.vpc_id
     },
     {
       namespace = "aws:ec2:vpc"
@@ -123,12 +123,12 @@ locals {
     {
       namespace = "aws:elasticbeanstalk:cloudwatch:logs"
       name = "DeleteOnTerminate"
-      value = local.production ? false: true
+      value = var.production ? false: true
     },
     {
       namespace = "aws:elasticbeanstalk:cloudwatch:logs"
       name = "RetentionInDays"
-      value = local.production ? 7 : 1
+      value = var.production ? 7 : 1
     },
     {
       namespace = "aws:elasticbeanstalk:cloudwatch:logs"
@@ -138,7 +138,7 @@ locals {
     {
       namespace = "aws:elasticbeanstalk:command"
       name = "BatchSize"
-      value = local.ha ? 50 : 100
+      value = var.ha ? 50 : 100
     },
     {
       namespace = "aws:elasticbeanstalk:command"
@@ -148,7 +148,7 @@ locals {
     {
       namespace = "aws:elasticbeanstalk:command"
       name = "DeploymentPolicy"
-      value = local.ha ? "Rolling" : "AllAtOnce"
+      value = var.ha ? "Rolling" : "AllAtOnce"
     },
     {
       namespace = "aws:elasticbeanstalk:command"
@@ -158,7 +158,7 @@ locals {
     {
       namespace = "aws:elasticbeanstalk:command"
       name = "IgnoreHealthCheck"
-      value = local.production ? false : true
+      value = var.production ? false : true
     },
     {
       namespace = "aws:elasticbeanstalk:environment"

@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "aws_logs_bucket" {
-  bucket = "${local.env_name}-${data.aws_region.current.name}"
-  force_destroy = local.production ? false : true
+  bucket = "${var.env_name}-logs-${data.aws_region.current.name}"
+  force_destroy = var.production ? false : true
 }
 
 resource "aws_s3_bucket_acl" "aws_logs_bucket_acl" {
