@@ -24,9 +24,8 @@ resource "aws_s3_bucket_policy" "aws_logs_bucket_policy" {
 data "aws_iam_policy_document" "aws_logs_bucket_policy" {
   statement {
     principals {
-      # The AWS account for eu-central-1
       # See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
-      identifiers = ["arn:aws:iam::054676820928:root"]
+      identifiers = [data.aws_elb_service_account.current.arn]
       type = "AWS"
     }
     actions = ["s3:PutObject"]
