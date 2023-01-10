@@ -42,7 +42,7 @@ variable "domain" {
   })
 }
 
-variable "additional_domains" {
+variable "certificate_additional_domains" {
   type = list(object({
     main = string
     sub = string

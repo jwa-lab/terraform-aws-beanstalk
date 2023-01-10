@@ -1,6 +1,6 @@
 data "aws_route53_zone" "zones" {
   for_each = {
-    for domain in concat([var.domain], var.additional_domains) : "${domain.sub}.${domain.main}" => {
+    for domain in concat([var.domain], var.certificate_additional_domains) : "${domain.sub}.${domain.main}" => {
       name: domain.main
     }
   }

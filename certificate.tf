@@ -1,6 +1,6 @@
 resource "aws_acm_certificate" "certificate" {
   domain_name = "${var.domain.sub}.${var.domain.main}"
-  subject_alternative_names = [for domain in var.additional_domains: "${domain.sub}.${domain.main}"]
+  subject_alternative_names = [for domain in var.certificate_additional_domains: "${domain.sub}.${domain.main}"]
   validation_method = "DNS"
 
   lifecycle {
