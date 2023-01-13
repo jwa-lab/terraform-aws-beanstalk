@@ -51,7 +51,7 @@ resource "aws_security_group" "beanstalk_instances_security_group" {
   vpc_id = var.vpc_id
 
   tags = {
-    Name = "${terraform.workspace}-beanstalk-instances"
+    Name = "${var.env_name}-beanstalk-instances"
   }
 }
 

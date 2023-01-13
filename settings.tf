@@ -208,7 +208,7 @@ locals {
     {
       namespace = "aws:elbv2:loadbalancer"
       name = "AccessLogsS3Bucket"
-      value = aws_s3_bucket.aws_logs_bucket.id
+      value = data.aws_s3_bucket.aws_bucket.id
     },
     {
       namespace = "aws:elbv2:loadbalancer"

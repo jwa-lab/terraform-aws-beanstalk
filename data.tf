@@ -31,6 +31,10 @@ data "aws_subnets" "private_apps" {
   }
 }
 
+data "aws_s3_bucket" "aws_bucket" {
+  bucket = var.aws_bucket_id
+}
+
 data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}

@@ -55,3 +55,8 @@ variable "instance_type" {
   description = "An AWS instance type to use for the environment. Defaults to t4g.small for production environments and t4g.micro for non-production environments"
   default = null
 }
+
+variable "aws_bucket_id" {
+  type = string
+  description = "Name of the S3 Bucket where AWS artifacts (mainly logs) can be written"
+}
