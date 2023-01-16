@@ -22,39 +22,23 @@ resource "aws_iam_instance_profile" "beanstalk_instances_profile" {
   role = aws_iam_role.beanstalk_instances_role.name
 }
 
-data "aws_iam_policy" "beanstalk_default_policy" {
-  name = "AWSElasticBeanstalkWebTier"
-}
-
 resource "aws_iam_role_policy_attachment" "beanstalk_default_policy_attachment" {
-  policy_arn = data.aws_iam_policy.beanstalk_default_policy.arn
+  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier"
   role = aws_iam_role.beanstalk_instances_role.name
-}
-
-data "aws_iam_policy" "beanstalk_health_policy" {
-  name = "AWSElasticBeanstalkEnhancedHealth"
 }
 
 resource "aws_iam_role_policy_attachment" "beanstalk_health_policy_attachment" {
-  policy_arn = data.aws_iam_policy.beanstalk_health_policy.arn
+  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkEnhancedHealth"
   role = aws_iam_role.beanstalk_instances_role.name
-}
-
-data "aws_iam_policy" "ssm_managed_instance_core" {
-  name = "AmazonSSMManagedInstanceCore"
 }
 
 resource "aws_iam_role_policy_attachment" "ssm_managed_instance_core_policy_attachment" {
-  policy_arn = data.aws_iam_policy.ssm_managed_instance_core.arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   role = aws_iam_role.beanstalk_instances_role.name
 }
 
-data "aws_iam_policy" "ecr_ro_policy" {
-  name = "AmazonEC2ContainerRegistryReadOnly"
-}
-
 resource "aws_iam_role_policy_attachment" "ecr_ro_attachment" {
-  policy_arn = data.aws_iam_policy.ecr_ro_policy.arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role = aws_iam_role.beanstalk_instances_role.name
 }
 
