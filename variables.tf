@@ -60,3 +60,9 @@ variable "aws_bucket_id" {
   type = string
   description = "Name of the S3 Bucket where AWS artifacts (mainly logs) can be written"
 }
+
+variable "profile_permissions_boundary_arn" {
+  type = string
+  default = null
+  description = "The ARN of AWS IAM Policy used as permissions boundary for the beanstalk instances profile"
+}

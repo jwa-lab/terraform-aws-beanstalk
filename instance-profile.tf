@@ -2,6 +2,8 @@ resource "aws_iam_role" "beanstalk_instances_role" {
   name = var.env_name
   description = "Role for ${var.env_name} beanstalk instance profile"
 
+  permissions_boundary = var.profile_permissions_boundary_arn
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -28,7 +30,7 @@ resource "aws_iam_role_policy_attachment" "beanstalk_default_policy_attachment" 
 }
 
 resource "aws_iam_role_policy_attachment" "beanstalk_health_policy_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkEnhancedHealth"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkEnhancedHealth"
   role = aws_iam_role.beanstalk_instances_role.name
 }
 
