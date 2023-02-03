@@ -56,11 +56,6 @@ variable "instance_type" {
   default = null
 }
 
-variable "aws_bucket_id" {
-  type = string
-  description = "Name of the S3 Bucket where AWS artifacts (mainly logs) can be written"
-}
-
 variable "profile_permissions_boundary_arn" {
   type = string
   default = null

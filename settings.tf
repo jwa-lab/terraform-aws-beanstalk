@@ -1,5 +1,5 @@
 locals {
-  beanstalk_settings = [
+  beanstalk_settings = setsubtract([
     {
       namespace = "aws:autoscaling:asg"
       name = "Availability Zones"
@@ -205,15 +205,15 @@ locals {
       name = "SSLCertificateArns"
       value = aws_acm_certificate.certificate.arn
     },
-    {
+    var.production ? {
       namespace = "aws:elbv2:loadbalancer"
       name = "AccessLogsS3Bucket"
-      value = data.aws_s3_bucket.aws_bucket.id
-    },
+      value = aws_s3_bucket.alb_logs_bucket[0].id
+    } : {},
     {
       namespace = "aws:elbv2:loadbalancer"
       name = "AccessLogsS3Enabled"
-      value = true
+      value = var.production
     },
     {
       namespace = "aws:elbv2:loadbalancer"
@@ -230,5 +230,5 @@ locals {
       name = "SecurityGroups"
       value = aws_security_group.load_balancer_security_group.id
     },
-  ]
+  ], [{}])
 }
