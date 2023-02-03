@@ -22,6 +22,7 @@ resource "aws_route53_record" "certificate_validation_records" {
   type = each.value.type
   zone_id = data.aws_route53_zone.zones[each.key].id
   ttl = 60
+  allow_overwrite = true
 }
 
 resource "aws_acm_certificate_validation" "certificate_validation" {
