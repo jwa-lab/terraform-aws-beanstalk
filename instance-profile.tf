@@ -44,7 +44,7 @@ resource "aws_iam_role_policy_attachment" "ecr_ro_attachment" {
 }
 
 resource "aws_iam_role_policy" "platform_api_cloudwatch_logs_policy" {
-  name = "CloudWatchLogsStreaming"
+  name = "cloudwatch-logs-streaming"
   role = aws_iam_role.beanstalk_instances_role.id
 
   policy = jsonencode({
