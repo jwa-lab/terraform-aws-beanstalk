@@ -10,7 +10,6 @@ resource "aws_iam_role" "beanstalk_instances_role" {
       {
         Action = "sts:AssumeRole"
         Effect = "Allow"
-        Sid    = ""
         Principal = {
           Service = "ec2.amazonaws.com"
         }
@@ -34,11 +33,10 @@ resource "aws_iam_role_policy_attachment" "beanstalk_health_policy_attachment" {
   role = aws_iam_role.beanstalk_instances_role.name
 }
 
-# Should not be needed anymore as we can launch a bastion
-#resource "aws_iam_role_policy_attachment" "ssm_managed_instance_core_policy_attachment" {
-#  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-#  role = aws_iam_role.beanstalk_instances_role.name
-#}
+resource "aws_iam_role_policy_attachment" "ssm_managed_instance_core_policy_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  role = aws_iam_role.beanstalk_instances_role.name
+}
 
 resource "aws_iam_role_policy_attachment" "ecr_ro_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
