@@ -213,7 +213,7 @@ locals {
     {
       namespace = "aws:elbv2:loadbalancer"
       name = "AccessLogsS3Enabled"
-      value = var.production
+      value = var.alb_logs
     },
     {
       namespace = "aws:elbv2:loadbalancer"
