@@ -205,7 +205,7 @@ locals {
       name = "SSLCertificateArns"
       value = aws_acm_certificate.certificate.arn
     },
-    var.production ? {
+    var.alb_logs ? {
       namespace = "aws:elbv2:loadbalancer"
       name = "AccessLogsS3Bucket"
       value = aws_s3_bucket.alb_logs_bucket[0].id

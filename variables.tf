@@ -23,6 +23,12 @@ variable "ha" {
   default = false
 }
 
+variable "alb_logs" {
+  type = bool
+  default = false
+  description = "Enable the ALB Logs in S3, stored in a dedicated bucket"
+}
+
 variable "beanstalk_env_vars" {
   type = list(object({
     name: string,
