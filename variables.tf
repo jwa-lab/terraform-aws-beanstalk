@@ -65,5 +65,11 @@ variable "instance_type" {
 variable "profile_permissions_boundary_arn" {
   type = string
   default = null
-  description = "The ARN of AWS IAM Policy used as permissions boundary for the beanstalk instances profile"
+  description = "The ARN of AWS IAM Policy used as permissions boundary for the beanstalk instances profile."
+}
+
+variable "health_check_path" {
+  type = string
+  default = "/health-check"
+  description = "The path to the health check endpoint used by the load balancer."
 }
