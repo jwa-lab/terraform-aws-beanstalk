@@ -1,13 +1,3 @@
-data "aws_route53_zone" "zones" {
-  for_each = {
-    for domain in concat([var.domain], var.certificate_additional_domains) : "${domain.sub}.${domain.main}" => {
-      name: domain.main
-    }
-  }
-
-  name = each.value.name
-}
-
 data "aws_subnets" "public" {
   filter {
     name   = "vpc-id"
@@ -34,7 +24,3 @@ data "aws_subnets" "private_apps" {
 data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
-
-data "aws_elastic_beanstalk_hosted_zone" "current" {}
-
-data "aws_elb_service_account" "current" {}

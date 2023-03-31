@@ -1,60 +1,15 @@
-resource "aws_iam_role" "beanstalk_instances_role" {
-  name = var.env_name
-  description = "Role for ${var.env_name} beanstalk instance profile"
+module "instance_profile" {
+  source  = "jwa-lab/instance-profile/aws"
+  version = "0.0.3"
 
-  permissions_boundary = var.profile_permissions_boundary_arn
+  name = var.beanstalk_env_name
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
+  policies_arn = [
+    var.tier == "WebServer" ? "arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier" : "arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier",
+    "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkEnhancedHealth",
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  ]
 
-resource "aws_iam_instance_profile" "beanstalk_instances_profile" {
-  name = "${var.env_name}-instance-profile"
-  role = aws_iam_role.beanstalk_instances_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "beanstalk_default_policy_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier"
-  role = aws_iam_role.beanstalk_instances_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "beanstalk_health_policy_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkEnhancedHealth"
-  role = aws_iam_role.beanstalk_instances_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "ssm_managed_instance_core_policy_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-  role = aws_iam_role.beanstalk_instances_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "ecr_ro_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role = aws_iam_role.beanstalk_instances_role.name
-}
-
-resource "aws_iam_role_policy" "platform_api_cloudwatch_logs_policy" {
-  name = "cloudwatch-logs-streaming"
-  role = aws_iam_role.beanstalk_instances_role.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = ["logs:CreateLogGroup"]
-        Effect = "Allow"
-        Resource = "arn:aws:logs:*:*:log-group:/aws/elasticbeanstalk*"
-      }
-    ]
-  })
+  permissions_boundary_policy_arn = var.profile_permissions_boundary_arn
 }
