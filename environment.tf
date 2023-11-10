@@ -28,6 +28,12 @@ resource "aws_elastic_beanstalk_environment" "beanstalk_env" {
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
+    name = "RootVolumeSize"
+    value = var.production ? 50 : 20
+  }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
     name = "SecurityGroups"
     value = aws_security_group.instances_security_group.id
   }
